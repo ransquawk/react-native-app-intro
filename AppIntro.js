@@ -121,9 +121,15 @@ export default class AppIntro extends Component {
   onNextBtnClick = (context) => {
     if (context.state.isScrolling || context.state.total < 2) return;
     const state = context.state;
-    const diff = (context.props.loop ? 1 : 0) + 1 + context.state.index;
+    if (Platform.OS === 'ios'){
+    let diff = Math.floor((context.props.loop ? 1 : 0) + 1 + context.state.index);
+    }else{
+      let diff = (context.props.loop ? 1 : 0) + 1 + context.state.index;
+    }
     let x = 0;
     if (state.dir === 'x') x = diff * state.width;
+
+    console.log('width:::::',x);
     if (Platform.OS === 'ios') {
       context.refs.scrollView.scrollTo({ y: 0, x });
     } else {
@@ -221,7 +227,7 @@ export default class AppIntro extends Component {
             {...this.state}
             isDoneBtnShow={isDoneBtnShow}
             styles={this.styles}
-            onNextBtnClick={this.onNextBtnClick.bind(this, context)}
+            // onNextBtnClick={this.onNextBtnClick.bind(this, context)}
             onDoneBtnClick={this.props.onDoneBtnClick} /> :
             <View style={this.styles.btnContainer} />
           }
@@ -369,7 +375,7 @@ AppIntro.propTypes = {
   onSlideChange: PropTypes.func,
   onSkipBtnClick: PropTypes.func,
   onDoneBtnClick: PropTypes.func,
-  onNextBtnClick: PropTypes.func,
+  // onNextBtnClick: PropTypes.func,
   pageArray: PropTypes.array,
   doneBtnLabel: PropTypes.oneOfType([
     PropTypes.string,
@@ -379,10 +385,10 @@ AppIntro.propTypes = {
     PropTypes.string,
     PropTypes.element,
   ]),
-  nextBtnLabel: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element,
-  ]),
+  // nextBtnLabel: PropTypes.oneOfType([
+  //   PropTypes.string,
+  //   PropTypes.element,
+  // ]),
   customStyles: PropTypes.object,
   defaultIndex: PropTypes.number,
   showSkipButton: PropTypes.bool,
@@ -402,7 +408,7 @@ AppIntro.defaultProps = {
   onNextBtnClick: () => {},
   doneBtnLabel: 'Done',
   skipBtnLabel: 'Skip',
-  nextBtnLabel: '›',
+  // nextBtnLabel: '›',
   defaultIndex: 0,
   showSkipButton: true,
   showDoneButton: true,
